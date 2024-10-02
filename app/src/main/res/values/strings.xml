@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cricket Scoreboard</string>
+    <string name="Overs">Enter number of Overs</string>
+    <string name="Wickets">Enter number of Wickets</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+</resources>
