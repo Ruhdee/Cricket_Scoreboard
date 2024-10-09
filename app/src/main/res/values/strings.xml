@@ -1,7 +1,27 @@
 <resources>
-    <string name="app_name">Cricket Scoreboard</string>
+    <string name="app_name">Cricket Scorekeeper</string>
     <string name="Overs">Enter number of Overs</string>
     <string name="Wickets">Enter number of Wickets</string>
+    <string name="_50_overs">50 Overs</string>
+    <string name="_20_overs">20 Overs</string>
+    <string name="custom">Custom</string>
+    <string name="choose_format">Choose Format</string>
+    <string name="_0">0</string>
+    <string name="_1">1</string>
+    <string name="_3">3</string>
+    <string name="_6">6</string>
+    <string name="_4">4</string>
+    <string name="out">Out</string>
+    <string name="wide">Wide</string>
+    <string name="no_ball">No Ball</string>
+    <string name="undo">Undo</string>
+    <string name="target">Target:</string>
+    <string name="to_win">To Win:</string>
+    <string name="runs">Runs:</string>
+    <string name="overs">Overs:</string>
+    <string name="_2">2</string>
+    <string name="wickets">Wickets:</string>
+    <string name="balls_left">Balls Left</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

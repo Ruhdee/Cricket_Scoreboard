@@ -23,8 +23,9 @@
             android:layout_height="403dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableLayout">
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tableLayout"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
                 android:id="@+id/buttonundo"
@@ -206,15 +207,16 @@
 
         <TableLayout
             android:id="@+id/tableLayout"
-            android:layout_width="272dp"
-            android:layout_height="234dp"
-            android:layout_marginBottom="20dp"
+            android:layout_width="268dp"
+            android:layout_height="236dp"
             android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TableRow
                 android:layout_width="match_parent"

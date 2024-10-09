@@ -1,22 +1,76 @@
 package com.example.cricketscoreboard;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class ScoreActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.Objects;
 
+public class ScoreActivity extends AppCompatActivity implements View.OnTouchListener {
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setContentView(R.layout.activity_score);
+        Button button0 = (findViewById(R.id.button0));
+        Button button1 = (findViewById(R.id.button1));
+        Button button2 = (findViewById(R.id.button2));
+        Button button3 = (findViewById(R.id.button3));
+        Button button4 = (findViewById(R.id.button4));
+        Button button6 = (findViewById(R.id.button6));
+        Button buttonout = (findViewById(R.id.buttonout));
+        Button buttonwide = (findViewById(R.id.buttonwide));
+        Button buttonno = (findViewById(R.id.buttonno));
+        ImageButton buttonundo = (findViewById(R.id.buttonundo));
+        button0.setOnTouchListener(this);
+        button1.setOnTouchListener(this);
+        button2.setOnTouchListener(this);
+        button3.setOnTouchListener(this);
+        button4.setOnTouchListener(this);
+        button6.setOnTouchListener(this);
+        buttonout.setOnTouchListener(this);
+        buttonwide.setOnTouchListener(this);
+        buttonno.setOnTouchListener(this);
+        buttonundo.setOnTouchListener(this);
+        String f = String.valueOf(sc);
+        ((TextView) findViewById(R.id.score)).setText(f);
+        f = String.valueOf(b / 6);
+        String g = ".";
+        String h = String.valueOf(b % 6);
+        String j = f + g + h;
+        ((TextView) findViewById(R.id.overs)).setText(j);
+        f = String.valueOf(wick);
+        ((TextView) findViewById(R.id.wickets)).setText(f);
+        if (!bl) {
+            findViewById(R.id.textView7).setVisibility(View.VISIBLE);
+            findViewById(R.id.textView8).setVisibility(View.VISIBLE);
+            findViewById(R.id.textView12).setVisibility(View.VISIBLE);
+            f = String.valueOf(target);
+            ((TextView) findViewById(R.id.target)).setText(f);
+            f = String.valueOf(Math.max(target - sc, 0));
+            ((TextView) findViewById(R.id.towin)).setText(f);
+            f = String.valueOf(O * 6 - b);
+            ((TextView) findViewById(R.id.ballsleft)).setText(f);
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +83,7 @@ public class ScoreActivity extends AppCompatActivity implements View.OnClickList
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         Intent i = getIntent();
         String s = i.getStringExtra("FIXED");
 
@@ -42,8 +97,8 @@ public class ScoreActivity extends AppCompatActivity implements View.OnClickList
             Log.d("ABCDEFG", "50 Overs");
         }
         if (s.equals("No")) {
-            O = i.getIntExtra("Custom1", 0);
-            W = i.getIntExtra("Custom2", 0);
+            O = i.getIntExtra("Custom1", 20);
+            W = i.getIntExtra("Custom2", 10);
 
         }
 
@@ -56,53 +111,73 @@ public class ScoreActivity extends AppCompatActivity implements View.OnClickList
         Button buttonout = (findViewById(R.id.buttonout));
         Button buttonwide = (findViewById(R.id.buttonwide));
         Button buttonno = (findViewById(R.id.buttonno));
-        button0.setOnClickListener(this);
-        button1.setOnClickListener(this);
-        button2.setOnClickListener(this);
-        button3.setOnClickListener(this);
-        button4.setOnClickListener(this);
-        button6.setOnClickListener(this);
-        buttonout.setOnClickListener(this);
-        buttonwide.setOnClickListener(this);
-        buttonno.setOnClickListener(this);
+        ImageButton buttonundo = (findViewById(R.id.buttonundo));
+        button0.setOnTouchListener(this);
+        button1.setOnTouchListener(this);
+        button2.setOnTouchListener(this);
+        button3.setOnTouchListener(this);
+        button4.setOnTouchListener(this);
+        button6.setOnTouchListener(this);
+        buttonout.setOnTouchListener(this);
+        buttonwide.setOnTouchListener(this);
+        buttonno.setOnTouchListener(this);
+        buttonundo.setOnTouchListener(this);
 
-        ScoreActivity A = new ScoreActivity();
-        target=999999999;//initialization
-        bl=true;
+
+        target = 99999;//initialization
+        bl = true;
         findViewById(R.id.textView7).setVisibility(View.INVISIBLE);
         findViewById(R.id.textView8).setVisibility(View.INVISIBLE);
-
+        findViewById(R.id.textView12).setVisibility(View.INVISIBLE);
+        ScoreActivity A = new ScoreActivity();
         A.start();
 
     }
 
-    static char[] a, z; //a is used for storing event for each ball. z is used for run out data on no ball.
-    static int b, target = 999999999, sc, wick, O, W, i = 0; /*b is balls. sc is score. wick is wickets fallen.
+    static String[] a = new String[999999]; //a is used for storing event for each ball. z is used for run out data on no ball.
+    static int b, target = 999999, sc, wick, O, W, i = 0; /*b is balls. sc is score. wick is wickets fallen.
      O, W are used for 	input of overs and wickets respectively.
       n is used for data of runs on no ball, wide , run out.*/
-    static int[] n;
-    static String str;
     static boolean bl = true;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
-    public void onClick(View v) {
-
-        str = ((Button) v).getText().toString();
-        process();
-        i++;
-        String f = String.valueOf(sc);
-        ((TextView) findViewById(R.id.score)).setText(f);
-        f = String.valueOf(b / 6);
-        String g = ".";
-        String h = String.valueOf(b % 6);
-        String j = f + g + h;
-        ((TextView) findViewById(R.id.overs)).setText(j);
-        f = String.valueOf(wick);
-        ((TextView) findViewById(R.id.wickets)).setText(f);
-        if (!bl) {
-            f = String.valueOf(target - sc);
-            ((TextView) findViewById(R.id.towin)).setText(f);
+    public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            v.setElevation(0);
+            if (v == findViewById(R.id.buttonundo)) {
+                a[i] = v.getContentDescription().toString();
+            } else {
+                a[i] = ((Button) v).getText().toString();
+            }
+            process();
+            String f = String.valueOf(sc);
+            ((TextView) findViewById(R.id.score)).setText(f);
+            f = String.valueOf(b / 6);
+            String g = ".";
+            String h = String.valueOf(b % 6);
+            String j = f + g + h;
+            ((TextView) findViewById(R.id.overs)).setText(j);
+            f = String.valueOf(wick);
+            ((TextView) findViewById(R.id.wickets)).setText(f);
+            if (!bl) {
+                findViewById(R.id.textView7).setVisibility(View.VISIBLE);
+                findViewById(R.id.textView8).setVisibility(View.VISIBLE);
+                findViewById(R.id.textView12).setVisibility(View.VISIBLE);
+                f = String.valueOf(target);
+                ((TextView) findViewById(R.id.target)).setText(f);
+                f = String.valueOf(Math.max(target - sc, 0));
+                ((TextView) findViewById(R.id.towin)).setText(f);
+                f = String.valueOf(O * 6 - b);
+                ((TextView) findViewById(R.id.ballsleft)).setText(f);
+            }
         }
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            v.setElevation(DpToPixel(4));
+
+
+        }
+        return true;
 
     }
 
@@ -114,90 +189,65 @@ public class ScoreActivity extends AppCompatActivity implements View.OnClickList
         b = 0;
         sc = 0;
         wick = 0;
-        n = new int[O * 6];
-        z = new char[O * 6];
-        a = new char[O * 6];
+
     }
 
     void process() {
         if ((b < O * 6) && (wick < W) && (sc < target)) {
-            a[i] = str.charAt(0);
-            if ((a[i] == '0') || (a[i] == '1') || (a[i] == '2') || (a[i] == '3') || (a[i] == '4') || (a[i] == '5') || (a[i] == '6')) //if 0 to 6 runs are scored.
+            int convert;
+            if ((Objects.equals(a[i], "0")) || (Objects.equals(a[i], "1")) || (Objects.equals(a[i], "2")) || (Objects.equals(a[i], "3")) || (Objects.equals(a[i], "4")) || (Objects.equals(a[i], "6"))) //if 0 to 6 runs are scored.
             {
                 b++;
-                sc += a[i] - 48; //-48 cuz of ASCII (converting char to int)
+                convert = Integer.parseInt(a[i]);
+                sc += convert; //-48 cuz of ASCII (converting char to int)
 
-            } else if (a[i] == 'O') //if Out
+            } else if (Objects.equals(a[i], "Out")) //if Out
             {
                 wick++;
                 b++;
 
-            } else if (a[i] == 'W') //if wide.
+            } else if (Objects.equals(a[i], "Wide")) //if wide.
             {
                 sc += 1;
-            } else if (a[i] == 'N') //if no ball.
+            } else if (Objects.equals(a[i], "No Ball")) //if no ball.
             {
                 sc += 1;
-            } else if (a[i] == 'U')//This is for undo.
+            } else if (Objects.equals(a[i], "Undo"))//This is for undo.
                 undo();
 
-        } else {
-            end(bl);
         }
+        i++;
+        if ((b >= O * 6) || (wick >= W) || (sc >= target))
+            end(bl);
     }
 
     void undo() {
         if (i >= 1)//if i=0, no inputs have been made yet.
         {
+            int convert;
             --i;
             //--i to bring arrays to previous ball.
-            if ((a[i] == '0') || (a[i] == '1') || (a[i] == '2') || (a[i] == '3') || (a[i] == '4') || (a[i] == '5') || (a[i] == '6'))//for 0 to 6 runs
+            if ((Objects.equals(a[i], "0")) || (Objects.equals(a[i], "1")) || (Objects.equals(a[i], "2")) || (Objects.equals(a[i], "3")) || (Objects.equals(a[i], "4")) || (Objects.equals(a[i], "6")))//for 0 to 6 runs
             {
                 b--;
-                sc -= a[i] - 48; //-48 cuz of ASCII (converting char to int)
-            } else if (a[i] == 'O') //for wicket
+                convert = Integer.parseInt(a[i]);
+                sc -= convert; //-48 cuz of ASCII (converting char to int)
+            } else if (Objects.equals(a[i], "Out")) //for wicket
             {
                 wick--;
                 b--;
-            } else if (a[i] == 'W') //for wide
+            } else if (Objects.equals(a[i], "Wide")) //for wide
             {
-                sc -= n[i] + 1; //n[i-1]+1 because wide ball extra run is also to be subtracted.
-            } else if (a[i] == 'N') //for no ball
+                sc -= 1; //n[i-1]+1 because wide ball extra run is also to be subtracted.
+            } else if (Objects.equals(a[i], "No Ball")) //for no ball
             {
-                sc -= n[i] + 1; //n[i-1]+1 because no ball extra run is also to be subtracted.
-                if ((z[i] == 'R') || (z[i] == 'r')) //if run out on no ball
-                {
-                    wick--;
-                }
-            } else if (a[i] == 'R') //for run out
-            {
-                sc -= n[i];
-                b--;
-                wick--;
+                sc -= 1; //n[i-1]+1 because no ball extra run is also to be subtracted.
+
             }
             --i;//To go 2 elements back in arrays(Current  element is 'U' and previous element was to be undone.)
         } else {
             Toast.makeText(this, "Can't Undo", Toast.LENGTH_LONG).show();
             i--;//to bring arrays and loop back to previous element
-        }
-    }
-
-    public void und(View v) {
-        str = "U";
-        process();
-        i++;
-        String f = String.valueOf(sc);
-        ((TextView) findViewById(R.id.score)).setText(f);
-        f = String.valueOf(b / 6);
-        String g = ".";
-        String h = String.valueOf(b % 6);
-        String j = f + g + h;
-        ((TextView) findViewById(R.id.overs)).setText(j);
-        f = String.valueOf(wick);
-        ((TextView) findViewById(R.id.wickets)).setText(f);
-        if (!bl) {
-            f = String.valueOf(target - sc);
-            ((TextView) findViewById(R.id.towin)).setText(f);
         }
     }
 
@@ -207,13 +257,9 @@ public class ScoreActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this, "Overs Finished, Innings Finished", Toast.LENGTH_LONG).show();
             } else if (wick == W) {
                 Toast.makeText(this, "All Out, Innings Finished", Toast.LENGTH_LONG).show();
-                ;
+
             }
-            findViewById(R.id.textView7).setVisibility(View.VISIBLE);
-            findViewById(R.id.textView8).setVisibility(View.VISIBLE);
             target = sc + 1;
-            String f = String.valueOf(target);
-            ((TextView) findViewById(R.id.target)).setText(f);
             bl = false;
             ScoreActivity B = new ScoreActivity();
             B.start();
@@ -226,6 +272,13 @@ public class ScoreActivity extends AppCompatActivity implements View.OnClickList
             } else
                 Toast.makeText(this, "Team A won!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public int DpToPixel(final float dp) {
+        final float scale = this.getResources().getDisplayMetrics().density;
+
+        final int pix = Math.round(dp * scale + 0.5f);
+        return pix;
     }
 }
 
