@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +27,28 @@ public class ScoreActivity extends AppCompatActivity implements View.OnTouchList
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setContentView(R.layout.activity_score);
-        setlistener();
+
+        Button button0 = (findViewById(R.id.button0));
+        Button button1 = (findViewById(R.id.button1));
+        Button button2 = (findViewById(R.id.button2));
+        Button button3 = (findViewById(R.id.button3));
+        Button button4 = (findViewById(R.id.button4));
+        Button button6 = (findViewById(R.id.button6));
+        Button buttonout = (findViewById(R.id.buttonout));
+        Button buttonwide = (findViewById(R.id.buttonwide));
+        Button buttonno = (findViewById(R.id.buttonno));
+        ImageButton buttonundo = (findViewById(R.id.buttonundo));
+        button0.setOnTouchListener(this);
+        button1.setOnTouchListener(this);
+        button2.setOnTouchListener(this);
+        button3.setOnTouchListener(this);
+        button4.setOnTouchListener(this);
+        button6.setOnTouchListener(this);
+        buttonout.setOnTouchListener(this);
+        buttonwide.setOnTouchListener(this);
+        buttonno.setOnTouchListener(this);
+        buttonundo.setOnTouchListener(this);
+
         printscore();
 
     }
@@ -46,10 +66,50 @@ public class ScoreActivity extends AppCompatActivity implements View.OnTouchList
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        Button button0 = (findViewById(R.id.button0));
+        Button button1 = (findViewById(R.id.button1));
+        Button button2 = (findViewById(R.id.button2));
+        Button button3 = (findViewById(R.id.button3));
+        Button button4 = (findViewById(R.id.button4));
+        Button button6 = (findViewById(R.id.button6));
+        Button buttonout = (findViewById(R.id.buttonout));
+        Button buttonwide = (findViewById(R.id.buttonwide));
+        Button buttonno = (findViewById(R.id.buttonno));
+        ImageButton buttonundo = (findViewById(R.id.buttonundo));
+        button0.setOnTouchListener(this);
+        button1.setOnTouchListener(this);
+        button2.setOnTouchListener(this);
+        button3.setOnTouchListener(this);
+        button4.setOnTouchListener(this);
+        button6.setOnTouchListener(this);
+        buttonout.setOnTouchListener(this);
+        buttonwide.setOnTouchListener(this);
+        buttonno.setOnTouchListener(this);
+        buttonundo.setOnTouchListener(this);
+
+        Intent i = getIntent();
+        String s = i.getStringExtra("FIXED");
+        assert s != null;
+        if (s.equals("20 Overs")) {
+            O = 20;
+            W = 10;
+        }
+        if (s.equals("50 Overs")) {
+            O = 50;
+            W = 10;
+        }
+        if (s.equals("No")) {
+            O = i.getIntExtra("Custom1", 20);
+            W = i.getIntExtra("Custom2", 10);
+
+        }
+        target = 99999;//initialization
+        bl = true;
+        findViewById(R.id.textView7).setVisibility(View.INVISIBLE);
+        findViewById(R.id.textView8).setVisibility(View.INVISIBLE);
+        findViewById(R.id.textView12).setVisibility(View.INVISIBLE);
 
         ScoreActivity A = new ScoreActivity();
-        A.setlistener();
-        A.initialize();
         A.start();
 
     }
@@ -82,57 +142,6 @@ public class ScoreActivity extends AppCompatActivity implements View.OnTouchList
         return true;
 
     }
-
-    @SuppressLint("ClickableViewAccessibility")
-    public void setlistener() {
-        Button button0 = (findViewById(R.id.button0));
-        Button button1 = (findViewById(R.id.button1));
-        Button button2 = (findViewById(R.id.button2));
-        Button button3 = (findViewById(R.id.button3));
-        Button button4 = (findViewById(R.id.button4));
-        Button button6 = (findViewById(R.id.button6));
-        Button buttonout = (findViewById(R.id.buttonout));
-        Button buttonwide = (findViewById(R.id.buttonwide));
-        Button buttonno = (findViewById(R.id.buttonno));
-        ImageButton buttonundo = (findViewById(R.id.buttonundo));
-        button0.setOnTouchListener(this);
-        button1.setOnTouchListener(this);
-        button2.setOnTouchListener(this);
-        button3.setOnTouchListener(this);
-        button4.setOnTouchListener(this);
-        button6.setOnTouchListener(this);
-        buttonout.setOnTouchListener(this);
-        buttonwide.setOnTouchListener(this);
-        buttonno.setOnTouchListener(this);
-        buttonundo.setOnTouchListener(this);
-    }
-
-    public void initialize() {
-        Intent i = getIntent();
-        String s = i.getStringExtra("FIXED");
-
-        assert s != null;
-        if (s.equals("20 Overs")) {
-            O = 20;
-            W = 10;
-        }
-        if (s.equals("50 Overs")) {
-            O = 50;
-            W = 10;
-            Log.d("ABCDEFG", "50 Overs");
-        }
-        if (s.equals("No")) {
-            O = i.getIntExtra("Custom1", 20);
-            W = i.getIntExtra("Custom2", 10);
-
-        }
-        target = 99999;//initialization
-        bl = true;
-        findViewById(R.id.textView7).setVisibility(View.INVISIBLE);
-        findViewById(R.id.textView8).setVisibility(View.INVISIBLE);
-        findViewById(R.id.textView12).setVisibility(View.INVISIBLE);
-    }
-
 
     void start() {
         /*Input of overs and wickets. Also, defining lengths of arrays. O*6 is no of balls.
