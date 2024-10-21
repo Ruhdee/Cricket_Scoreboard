@@ -28,46 +28,9 @@ public class ScoreActivity extends AppCompatActivity implements View.OnTouchList
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setContentView(R.layout.activity_score);
-        Button button0 = (findViewById(R.id.button0));
-        Button button1 = (findViewById(R.id.button1));
-        Button button2 = (findViewById(R.id.button2));
-        Button button3 = (findViewById(R.id.button3));
-        Button button4 = (findViewById(R.id.button4));
-        Button button6 = (findViewById(R.id.button6));
-        Button buttonout = (findViewById(R.id.buttonout));
-        Button buttonwide = (findViewById(R.id.buttonwide));
-        Button buttonno = (findViewById(R.id.buttonno));
-        ImageButton buttonundo = (findViewById(R.id.buttonundo));
-        button0.setOnTouchListener(this);
-        button1.setOnTouchListener(this);
-        button2.setOnTouchListener(this);
-        button3.setOnTouchListener(this);
-        button4.setOnTouchListener(this);
-        button6.setOnTouchListener(this);
-        buttonout.setOnTouchListener(this);
-        buttonwide.setOnTouchListener(this);
-        buttonno.setOnTouchListener(this);
-        buttonundo.setOnTouchListener(this);
-        String f = String.valueOf(sc);
-        ((TextView) findViewById(R.id.score)).setText(f);
-        f = String.valueOf(b / 6);
-        String g = ".";
-        String h = String.valueOf(b % 6);
-        String j = f + g + h;
-        ((TextView) findViewById(R.id.overs)).setText(j);
-        f = String.valueOf(wick);
-        ((TextView) findViewById(R.id.wickets)).setText(f);
-        if (!bl) {
-            findViewById(R.id.textView7).setVisibility(View.VISIBLE);
-            findViewById(R.id.textView8).setVisibility(View.VISIBLE);
-            findViewById(R.id.textView12).setVisibility(View.VISIBLE);
-            f = String.valueOf(target);
-            ((TextView) findViewById(R.id.target)).setText(f);
-            f = String.valueOf(Math.max(target - sc, 0));
-            ((TextView) findViewById(R.id.towin)).setText(f);
-            f = String.valueOf(O * 6 - b);
-            ((TextView) findViewById(R.id.ballsleft)).setText(f);
-        }
+        setlistener();
+        printscore();
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -84,52 +47,9 @@ public class ScoreActivity extends AppCompatActivity implements View.OnTouchList
             return insets;
         });
 
-        Intent i = getIntent();
-        String s = i.getStringExtra("FIXED");
-
-        if (s.equals("20 Overs")) {
-            O = 20;
-            W = 10;
-        }
-        if (s.equals("50 Overs")) {
-            O = 50;
-            W = 10;
-            Log.d("ABCDEFG", "50 Overs");
-        }
-        if (s.equals("No")) {
-            O = i.getIntExtra("Custom1", 20);
-            W = i.getIntExtra("Custom2", 10);
-
-        }
-
-        Button button0 = (findViewById(R.id.button0));
-        Button button1 = (findViewById(R.id.button1));
-        Button button2 = (findViewById(R.id.button2));
-        Button button3 = (findViewById(R.id.button3));
-        Button button4 = (findViewById(R.id.button4));
-        Button button6 = (findViewById(R.id.button6));
-        Button buttonout = (findViewById(R.id.buttonout));
-        Button buttonwide = (findViewById(R.id.buttonwide));
-        Button buttonno = (findViewById(R.id.buttonno));
-        ImageButton buttonundo = (findViewById(R.id.buttonundo));
-        button0.setOnTouchListener(this);
-        button1.setOnTouchListener(this);
-        button2.setOnTouchListener(this);
-        button3.setOnTouchListener(this);
-        button4.setOnTouchListener(this);
-        button6.setOnTouchListener(this);
-        buttonout.setOnTouchListener(this);
-        buttonwide.setOnTouchListener(this);
-        buttonno.setOnTouchListener(this);
-        buttonundo.setOnTouchListener(this);
-
-
-        target = 99999;//initialization
-        bl = true;
-        findViewById(R.id.textView7).setVisibility(View.INVISIBLE);
-        findViewById(R.id.textView8).setVisibility(View.INVISIBLE);
-        findViewById(R.id.textView12).setVisibility(View.INVISIBLE);
         ScoreActivity A = new ScoreActivity();
+        A.setlistener();
+        A.initialize();
         A.start();
 
     }
@@ -151,26 +71,8 @@ public class ScoreActivity extends AppCompatActivity implements View.OnTouchList
                 a[i] = ((Button) v).getText().toString();
             }
             process();
-            String f = String.valueOf(sc);
-            ((TextView) findViewById(R.id.score)).setText(f);
-            f = String.valueOf(b / 6);
-            String g = ".";
-            String h = String.valueOf(b % 6);
-            String j = f + g + h;
-            ((TextView) findViewById(R.id.overs)).setText(j);
-            f = String.valueOf(wick);
-            ((TextView) findViewById(R.id.wickets)).setText(f);
-            if (!bl) {
-                findViewById(R.id.textView7).setVisibility(View.VISIBLE);
-                findViewById(R.id.textView8).setVisibility(View.VISIBLE);
-                findViewById(R.id.textView12).setVisibility(View.VISIBLE);
-                f = String.valueOf(target);
-                ((TextView) findViewById(R.id.target)).setText(f);
-                f = String.valueOf(Math.max(target - sc, 0));
-                ((TextView) findViewById(R.id.towin)).setText(f);
-                f = String.valueOf(O * 6 - b);
-                ((TextView) findViewById(R.id.ballsleft)).setText(f);
-            }
+            printscore();
+
         }
         if (event.getAction() == MotionEvent.ACTION_UP) {
             v.setElevation(DpToPixel(4));
@@ -179,6 +81,56 @@ public class ScoreActivity extends AppCompatActivity implements View.OnTouchList
         }
         return true;
 
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void setlistener() {
+        Button button0 = (findViewById(R.id.button0));
+        Button button1 = (findViewById(R.id.button1));
+        Button button2 = (findViewById(R.id.button2));
+        Button button3 = (findViewById(R.id.button3));
+        Button button4 = (findViewById(R.id.button4));
+        Button button6 = (findViewById(R.id.button6));
+        Button buttonout = (findViewById(R.id.buttonout));
+        Button buttonwide = (findViewById(R.id.buttonwide));
+        Button buttonno = (findViewById(R.id.buttonno));
+        ImageButton buttonundo = (findViewById(R.id.buttonundo));
+        button0.setOnTouchListener(this);
+        button1.setOnTouchListener(this);
+        button2.setOnTouchListener(this);
+        button3.setOnTouchListener(this);
+        button4.setOnTouchListener(this);
+        button6.setOnTouchListener(this);
+        buttonout.setOnTouchListener(this);
+        buttonwide.setOnTouchListener(this);
+        buttonno.setOnTouchListener(this);
+        buttonundo.setOnTouchListener(this);
+    }
+
+    public void initialize() {
+        Intent i = getIntent();
+        String s = i.getStringExtra("FIXED");
+
+        assert s != null;
+        if (s.equals("20 Overs")) {
+            O = 20;
+            W = 10;
+        }
+        if (s.equals("50 Overs")) {
+            O = 50;
+            W = 10;
+            Log.d("ABCDEFG", "50 Overs");
+        }
+        if (s.equals("No")) {
+            O = i.getIntExtra("Custom1", 20);
+            W = i.getIntExtra("Custom2", 10);
+
+        }
+        target = 99999;//initialization
+        bl = true;
+        findViewById(R.id.textView7).setVisibility(View.INVISIBLE);
+        findViewById(R.id.textView8).setVisibility(View.INVISIBLE);
+        findViewById(R.id.textView12).setVisibility(View.INVISIBLE);
     }
 
 
@@ -219,6 +171,29 @@ public class ScoreActivity extends AppCompatActivity implements View.OnTouchList
         i++;
         if ((b >= O * 6) || (wick >= W) || (sc >= target))
             end(bl);
+    }
+
+    public void printscore() {
+        String f = String.valueOf(sc);
+        ((TextView) findViewById(R.id.score)).setText(f);
+        f = String.valueOf(b / 6);
+        String g = ".";
+        String h = String.valueOf(b % 6);
+        String j = f + g + h;
+        ((TextView) findViewById(R.id.overs)).setText(j);
+        f = String.valueOf(wick);
+        ((TextView) findViewById(R.id.wickets)).setText(f);
+        if (!bl) {
+            findViewById(R.id.textView7).setVisibility(View.VISIBLE);
+            findViewById(R.id.textView8).setVisibility(View.VISIBLE);
+            findViewById(R.id.textView12).setVisibility(View.VISIBLE);
+            f = String.valueOf(target);
+            ((TextView) findViewById(R.id.target)).setText(f);
+            f = String.valueOf(Math.max(target - sc, 0));
+            ((TextView) findViewById(R.id.towin)).setText(f);
+            f = String.valueOf(O * 6 - b);
+            ((TextView) findViewById(R.id.ballsleft)).setText(f);
+        }
     }
 
     void undo() {
@@ -277,8 +252,7 @@ public class ScoreActivity extends AppCompatActivity implements View.OnTouchList
     public int DpToPixel(final float dp) {
         final float scale = this.getResources().getDisplayMetrics().density;
 
-        final int pix = Math.round(dp * scale + 0.5f);
-        return pix;
+        return Math.round(dp * scale + 0.5f);
     }
 }
 
